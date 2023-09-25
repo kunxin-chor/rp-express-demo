@@ -4,7 +4,9 @@ const mysql = require('mysql2/promise')
 require('dotenv').config();
 
 const app = express();
-app.use(express.urlencoded());
+app.use(express.urlencoded({
+    extended:false
+}));
 
 // initialise the database
 const pool = mysql.createPool({
@@ -39,6 +41,20 @@ app.post('/recipes', async function(req, res){
     await pool.query('INSERT INTO recipes (name, ingredients, instructions) VALUES (?, ?, ?)', [name, ingredients, instructions]);
     res.redirect('/recipes');
 });
+
+app.get('/recipes/:id/edit', async function(req, res){
+    const id = req.params.id;
+    const [results] = await pool.query('SELECT * FROM recipes WHERE id = ?', [id]);
+    res.render("editRecipe", { recipe: results[0] });
+});
+
+app.post('/recipes/:id', async function(req, res){
+    const id = req.params.id;
+    const { name, ingredients, instructions } = req.body;
+    await pool.query('UPDATE recipes SET name = ?, ingredients = ?, instructions = ? WHERE id = ?', [name, ingredients, instructions, id]);
+    res.redirect('/recipes');
+});
+
 
 // start server
 app.listen(8080, function(){
