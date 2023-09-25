@@ -24,7 +24,10 @@
                     <td><%= recipe.name %></td>
                     <td><%= recipe.ingredients %></td>
                     <td><%= recipe.instructions %></td>
-                    <td><a href="/recipes/<%= recipe.id %>/edit">Edit</a></td>
+                    <td>
+                        <a href="/recipes/<%= recipe.id %>/edit">Edit</a>
+                        <a href="/recipes/<%= recipe.id %>/delete">Delete</a>
+                    </td>
                 </tr>
                 <% }); %>
             </tbody>

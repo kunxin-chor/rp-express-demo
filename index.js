@@ -55,6 +55,11 @@ app.post('/recipes/:id', async function(req, res){
     res.redirect('/recipes');
 });
 
+app.get('/recipes/:id/delete', async function(req, res){
+    const { id } = req.params;
+    await pool.query('DELETE FROM recipes WHERE id = ?', [id]);
+    res.redirect('/recipes');
+});
 
 // start server
 app.listen(8080, function(){
