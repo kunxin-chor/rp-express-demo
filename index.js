@@ -23,8 +23,10 @@ app.get("/", function(req,res){
 });
 
 app.get('/recipes', async function(req,res){
-    const [results] = await pool.query('SELECT * FROM pets');
-    res.json(results);
+    const [results] = await pool.query('SELECT * FROM recipes');
+    res.render('recipes.ejs',{
+        recipes: results
+    })
 
 })
 
